@@ -1,0 +1,4 @@
+CREATE DATABASE CinemaDB
+COLLATE Cyrillic_General_CI_AS
+GO
+
