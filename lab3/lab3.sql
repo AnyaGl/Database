@@ -1,3 +1,7 @@
+CREATE DATABASE StorageDB
+COLLATE Cyrillic_General_CI_AS
+
+
 CREATE TABLE storage (
 id_storage int NOT NULL IDENTITY,
 name nvarchar(20) NULL,
@@ -58,6 +62,10 @@ ALTER TABLE product
 ADD
 PRIMARY KEY(id_product)
 
+ALTER TABLE product_in_storage
+ADD
+PRIMARY KEY(id_product, id_storage)
+
 ALTER TABLE storekeeper
 ADD
 PRIMARY KEY(id_employee)
@@ -65,6 +73,10 @@ PRIMARY KEY(id_employee)
 ALTER TABLE supplier
 ADD
 PRIMARY KEY(id_supplier)
+
+ALTER TABLE product_of_supplier
+ADD
+PRIMARY KEY(id_product, id_supplier)
 
 
 ALTER TABLE product_in_storage
