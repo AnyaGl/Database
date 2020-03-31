@@ -107,30 +107,30 @@ ON DELETE CASCADE
 
 
 ---- 1. INSERT ----
--- 1. Без указания списка полей
+-- 1. Р‘РµР· СѓРєР°Р·Р°РЅРёСЏ СЃРїРёСЃРєР° РїРѕР»РµР№
 INSERT [product]
-VALUES ('Молоко', 'Коровье молоко', DATEFROMPARTS ( 2020, 03, 25 ), 50);
+VALUES ('РњРѕР»РѕРєРѕ', 'РљРѕСЂРѕРІСЊРµ РјРѕР»РѕРєРѕ', DATEFROMPARTS ( 2020, 03, 25 ), 50);
 
 INSERT [product]
-VALUES ('Молоко', 'Козье молоко', DATEFROMPARTS ( 2020, 03, 30 ), 100);
+VALUES ('РњРѕР»РѕРєРѕ', 'РљРѕР·СЊРµ РјРѕР»РѕРєРѕ', DATEFROMPARTS ( 2020, 03, 30 ), 100);
 
 INSERT [product]
-VALUES ('Молоко', 'Коровье молоко', DATEFROMPARTS ( 2020, 03, 18 ), 50);
+VALUES ('РњРѕР»РѕРєРѕ', 'РљРѕСЂРѕРІСЊРµ РјРѕР»РѕРєРѕ', DATEFROMPARTS ( 2020, 03, 18 ), 50);
 
 INSERT [product]
-VALUES ('Lays', 'Чипсы', DATEFROMPARTS ( 2021, 04, 5 ), 180);
+VALUES ('Lays', 'Р§РёРїСЃС‹', DATEFROMPARTS ( 2021, 04, 5 ), 180);
 
 INSERT [product]
-VALUES ('Шоколад', 'Молочный', DATEFROMPARTS ( 2021, 04, 15 ), 130);
+VALUES ('РЁРѕРєРѕР»Р°Рґ', 'РњРѕР»РѕС‡РЅС‹Р№', DATEFROMPARTS ( 2021, 04, 15 ), 130);
 
 INSERT [storage]
-VALUES ('Продукты', 'ул. Пушкина, д. 8', '123456789', 1000);
+VALUES ('РџСЂРѕРґСѓРєС‚С‹', 'СѓР». РџСѓС€РєРёРЅР°, Рґ. 8', '123456789', 1000);
 
 INSERT [storage]
-VALUES ('Продукты', 'ул. Пушкина, д. 8', '123456789', 2000);
+VALUES ('РџСЂРѕРґСѓРєС‚С‹', 'СѓР». РџСѓС€РєРёРЅР°, Рґ. 8', '123456789', 2000);
 
 INSERT [storage]
-VALUES ('Овощи', 'ул. Волкова, д. 43', '5555', 9000);
+VALUES ('РћРІРѕС‰Рё', 'СѓР». Р’РѕР»РєРѕРІР°, Рґ. 43', '5555', 9000);
 
 INSERT [product_in_storage]
 VALUES (7, 1, 100, '2004-05-23T14:25:10');
@@ -148,21 +148,21 @@ INSERT [product_in_storage]
 VALUES (4, 3, 150, '2020-03-15T12:45:00');
 
 
--- 2. С указанием списка полей
+-- 2. РЎ СѓРєР°Р·Р°РЅРёРµРј СЃРїРёСЃРєР° РїРѕР»РµР№
 INSERT [product]
 	(name, shelf_life, purchase_price)
-VALUES ('Сыр', DATEFROMPARTS ( 2020, 04, 5 ), 150);
+VALUES ('РЎС‹СЂ', DATEFROMPARTS ( 2020, 04, 5 ), 150);
 
 INSERT [product]
 	(name, shelf_life, purchase_price)
-VALUES ('Шоколад', DATEFROMPARTS ( 2021, 04, 5 ), 180);
+VALUES ('РЁРѕРєРѕР»Р°Рґ', DATEFROMPARTS ( 2021, 04, 5 ), 180);
 
 INSERT [storage]
 	(address, phone, capacity)
-VALUES ('ул. Пушкина, д. 8', '89658354222', 1500);
+VALUES ('СѓР». РџСѓС€РєРёРЅР°, Рґ. 8', '89658354222', 1500);
 
 
--- 3. С чтением значения из другой таблицы
+-- 3. РЎ С‡С‚РµРЅРёРµРј Р·РЅР°С‡РµРЅРёСЏ РёР· РґСЂСѓРіРѕР№ С‚Р°Р±Р»РёС†С‹
 INSERT [supplier]
 	(name, phone, address) 
 SELECT name, phone, address FROM storage; 
@@ -170,30 +170,30 @@ SELECT name, phone, address FROM storage;
 
 
 ---- 2. DELETE ----
--- 1. Всех записей
+-- 1. Р’СЃРµС… Р·Р°РїРёСЃРµР№
 DELETE [supplier]
 
--- 2. По условию
+-- 2. РџРѕ СѓСЃР»РѕРІРёСЋ
 DELETE [product]
 WHERE 
-	name LIKE 'Молоко';
+	name LIKE 'РњРѕР»РѕРєРѕ';
 
--- 3. Очистить таблицу
+-- 3. РћС‡РёСЃС‚РёС‚СЊ С‚Р°Р±Р»РёС†Сѓ
 TRUNCATE TABLE [product_in_storage]
 
 
 
 ---- 3. UPDATE ----
--- 1. Всех записей
+-- 1. Р’СЃРµС… Р·Р°РїРёСЃРµР№
 UPDATE [storage]
-SET address = 'ул. Королева, д.15'
+SET address = 'СѓР». РљРѕСЂРѕР»РµРІР°, Рґ.15'
 
--- 2. По условию обновляя один атрибут
+-- 2. РџРѕ СѓСЃР»РѕРІРёСЋ РѕР±РЅРѕРІР»СЏСЏ РѕРґРёРЅ Р°С‚СЂРёР±СѓС‚
 UPDATE [storage]
 SET  phone = '79024542154'
 WHERE name IS NULL;
 
--- 3. По условию обновляя несколько атрибутов
+-- 3. РџРѕ СѓСЃР»РѕРІРёСЋ РѕР±РЅРѕРІР»СЏСЏ РЅРµСЃРєРѕР»СЊРєРѕ Р°С‚СЂРёР±СѓС‚РѕРІ
 UPDATE [product] 
 SET purchase_price += 10
 WHERE purchase_price < 120;
@@ -201,54 +201,54 @@ WHERE purchase_price < 120;
 
 
 ---- 4. SELECT ----
--- 1. С определенным набором извлекаемых атрибутов 
+-- 1. РЎ РѕРїСЂРµРґРµР»РµРЅРЅС‹Рј РЅР°Р±РѕСЂРѕРј РёР·РІР»РµРєР°РµРјС‹С… Р°С‚СЂРёР±СѓС‚РѕРІ 
 SELECT name, purchase_price FROM [product]
 
--- 2. Со всеми атрибутами (SELECT * FROM...)
+-- 2. РЎРѕ РІСЃРµРјРё Р°С‚СЂРёР±СѓС‚Р°РјРё (SELECT * FROM...)
 SELECT * FROM [storage]
 
--- 3. С условием по атрибуту (SELECT * FROM ... WHERE atr1 = "")
+-- 3. РЎ СѓСЃР»РѕРІРёРµРј РїРѕ Р°С‚СЂРёР±СѓС‚Сѓ (SELECT * FROM ... WHERE atr1 = "")
 SELECT * FROM [product]
 WHERE purchase_price < 150
 
 
 
 ---- 5. SELECT ORDER BY + TOP (LIMIT) ----
--- 1. С сортировкой по возрастанию ASC + ограничение вывода количества записей
+-- 1. РЎ СЃРѕСЂС‚РёСЂРѕРІРєРѕР№ РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ ASC + РѕРіСЂР°РЅРёС‡РµРЅРёРµ РІС‹РІРѕРґР° РєРѕР»РёС‡РµСЃС‚РІР° Р·Р°РїРёСЃРµР№
 SELECT TOP 3 * 
 FROM [product]
 ORDER BY purchase_price ASC
 
--- 2. С сортировкой по убыванию DESC
+-- 2. РЎ СЃРѕСЂС‚РёСЂРѕРІРєРѕР№ РїРѕ СѓР±С‹РІР°РЅРёСЋ DESC
 SELECT * 
 FROM [product]
 ORDER BY name DESC
 
--- 3. С сортировкой по двум атрибутам + ограничение вывода количества записей
+-- 3. РЎ СЃРѕСЂС‚РёСЂРѕРІРєРѕР№ РїРѕ РґРІСѓРј Р°С‚СЂРёР±СѓС‚Р°Рј + РѕРіСЂР°РЅРёС‡РµРЅРёРµ РІС‹РІРѕРґР° РєРѕР»РёС‡РµСЃС‚РІР° Р·Р°РїРёСЃРµР№
 SELECT TOP 4 * 
 FROM [product]
 ORDER BY name, purchase_price
 
--- 4. С сортировкой по первому атрибуту, из списка извлекаемых
+-- 4. РЎ СЃРѕСЂС‚РёСЂРѕРІРєРѕР№ РїРѕ РїРµСЂРІРѕРјСѓ Р°С‚СЂРёР±СѓС‚Сѓ, РёР· СЃРїРёСЃРєР° РёР·РІР»РµРєР°РµРјС‹С…
 SELECT name, purchase_price
 FROM [product]
 ORDER BY 1
 
 
 
----- 6. Работа с датами. ----
--- 1. WHERE по дате
+---- 6. Р Р°Р±РѕС‚Р° СЃ РґР°С‚Р°РјРё. ----
+-- 1. WHERE РїРѕ РґР°С‚Рµ
 SELECT *
 FROM [product_in_storage]
 WHERE delivery > '2019-01-01T00:00:00'
 
--- 2. Извлечь из таблицы не всю дату, а только год. 
+-- 2. РР·РІР»РµС‡СЊ РёР· С‚Р°Р±Р»РёС†С‹ РЅРµ РІСЃСЋ РґР°С‚Сѓ, Р° С‚РѕР»СЊРєРѕ РіРѕРґ. 
 SELECT name, YEAR(shelf_life) AS shelf_life
 FROM [product]
 
 
 
----- 7. SELECT GROUP BY с функциями агрегации ----
+---- 7. SELECT GROUP BY СЃ С„СѓРЅРєС†РёСЏРјРё Р°РіСЂРµРіР°С†РёРё ----
 -- 1. MIN
 SELECT name, MIN(capacity) AS capacity
 FROM [storage]
@@ -278,7 +278,7 @@ GROUP BY name
 
 
 ---- 8. SELECT GROUP BY + HAVING ----
--- 1. Написать 3 разных запроса с использованием GROUP BY + HAVING
+-- 1. РќР°РїРёСЃР°С‚СЊ 3 СЂР°Р·РЅС‹С… Р·Р°РїСЂРѕСЃР° СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј GROUP BY + HAVING
 SELECT name, COUNT(*)
 FROM [product]
 GROUP BY name
@@ -298,14 +298,14 @@ HAVING AVG(purchase_price) > 80
 
 
 ---- 9. SELECT JOIN ----
--- 1. LEFT JOIN двух таблиц и WHERE по одному из атрибутов
+-- 1. LEFT JOIN РґРІСѓС… С‚Р°Р±Р»РёС† Рё WHERE РїРѕ РѕРґРЅРѕРјСѓ РёР· Р°С‚СЂРёР±СѓС‚РѕРІ
 SELECT * FROM 
 [product_in_storage] p
 LEFT JOIN [product] s 
 ON p.id_product = s.id_product
 WHERE quantity > 80
 
--- 2. RIGHT JOIN. Получить такую же выборку, как и в 5.1
+-- 2. RIGHT JOIN. РџРѕР»СѓС‡РёС‚СЊ С‚Р°РєСѓСЋ Р¶Рµ РІС‹Р±РѕСЂРєСѓ, РєР°Рє Рё РІ 5.1
 SELECT TOP 3 * FROM 
 [product_in_storage] p
 RIGHT JOIN [product] s 
@@ -316,30 +316,28 @@ SELECT TOP 3 *
 FROM [product]
 ORDER BY purchase_price ASC
 
--- 3. LEFT JOIN трех таблиц + WHERE по атрибуту из каждой таблицы
+-- 3. LEFT JOIN С‚СЂРµС… С‚Р°Р±Р»РёС† + WHERE РїРѕ Р°С‚СЂРёР±СѓС‚Сѓ РёР· РєР°Р¶РґРѕР№ С‚Р°Р±Р»РёС†С‹
 SELECT * FROM 
 (SELECT * FROM [product] WHERE purchase_price < 150) p
 LEFT JOIN (SELECT * FROM [product_in_storage] WHERE quantity > 90) ps
 ON ps.id_product = p.id_product
-LEFT JOIN (SELECT * FROM [storage] WHERE name = 'Продукты') s
+LEFT JOIN (SELECT * FROM [storage] WHERE name = 'РџСЂРѕРґСѓРєС‚С‹') s
 ON s.id_storage = ps.id_storage
 
--- 4. FULL OUTER JOIN двух таблиц
+-- 4. FULL OUTER JOIN РґРІСѓС… С‚Р°Р±Р»РёС†
 SELECT * FROM 
 [storage] s 
 FULL OUTER JOIN [product_in_storage] p
 ON p.id_storage = s.id_storage
 
-SELECT id_product FROM [product_in_storage] WHERE id_product >0
 
 
-
----- 10. Подзапросы ----
--- 1. Написать запрос с WHERE IN (подзапрос)
+---- 10. РџРѕРґР·Р°РїСЂРѕСЃС‹ ----
+-- 1. РќР°РїРёСЃР°С‚СЊ Р·Р°РїСЂРѕСЃ СЃ WHERE IN (РїРѕРґР·Р°РїСЂРѕСЃ)
 SELECT * FROM product
 WHERE id_product IN (SELECT id_product FROM product_in_storage)
 
--- 2. Написать запрос SELECT atr1, atr2, (подзапрос) FROM ...
+-- 2. РќР°РїРёСЃР°С‚СЊ Р·Р°РїСЂРѕСЃ SELECT atr1, atr2, (РїРѕРґР·Р°РїСЂРѕСЃ) FROM ...
 SELECT 
 	quantity,
 	delivery,
