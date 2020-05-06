@@ -36,8 +36,8 @@ INNER JOIN room ON room_in_booking.id_room = room.id_room
 INNER JOIN hotel ON room.id_hotel = hotel.id_hotel
 INNER JOIN room_category ON room.id_room_category = room_category.id_room_category
 WHERE 
-	hotel.name = 'Космос' 
-	and room_category.name = 'Люкс' 
+	hotel.name = N'Космос' 
+	and room_category.name = N'Люкс' 
 	and room_in_booking.checkin_date <= DATEFROMPARTS ( 2019, 04, 1 ) 
 	and DATEFROMPARTS ( 2019, 04, 1 )  < room_in_booking.checkout_date
 
@@ -65,7 +65,7 @@ INNER JOIN room ON room_category.id_room_category = room.id_room_category
 INNER JOIN hotel ON room.id_hotel = hotel.id_hotel
 INNER JOIN room_in_booking ON room.id_room = room_in_booking.id_room
 
-WHERE hotel.name = 'Космос'
+WHERE hotel.name = N'Космос'
 	  and room_in_booking.checkin_date <= DATEFROMPARTS ( 2019, 03, 23 ) 
 	  and DATEFROMPARTS ( 2019, 03, 23 )  < room_in_booking.checkout_date
 
@@ -81,7 +81,7 @@ INNER JOIN room_in_booking ON room_in_booking.id_booking = booking.id_booking
 INNER JOIN room ON room_in_booking.id_room = room.id_room
 
 INNER JOIN (SELECT id_hotel, hotel.name FROM hotel 
-		    WHERE hotel.name = 'Космос'
+		    WHERE hotel.name = N'Космос'
 		   ) AS hotel
 		   ON hotel.id_hotel = room.id_hotel
 
@@ -109,9 +109,9 @@ INNER JOIN room_in_booking ON room.id_room = room_in_booking.id_room
 INNER JOIN hotel ON room.id_hotel = hotel.id_hotel
 INNER JOIN room_category ON room.id_room_category = room_category.id_room_category
 WHERE
-	hotel.name = 'Космос' 
-	and room_category.name = 'Бизнес' 
-	and room_in_booking.checkin_date = DATEFROMPARTS ( 2019, 05, 10 ) 
+	hotel.name = N'Космос' 
+	and room_category.name = N'Бизнес' 
+	and room_in_booking.checkin_date = DATEFROMPARTS( 2019, 05, 10 ) 
 
 
 
@@ -122,19 +122,17 @@ INNER JOIN room_in_booking AS booked2 ON booked1.id_room = booked2.id_room
 WHERE (
 	(booked1.id_room_in_booking != booked2.id_room_in_booking)
 	and
-	((booked1.checkin_date >= booked2.checkin_date and booked1.checkin_date < booked2.checkout_date) 
-	or 
-	(booked2.checkin_date >= booked1.checkin_date and booked2.checkin_date < booked1.checkout_date)) 
+	(booked2.checkin_date >= booked1.checkin_date and booked2.checkin_date < booked1.checkout_date) 
 )
 ORDER BY booked1.id_room_in_booking
 
-
+Select * from booking
 
 --8. Создать бронирование в транзакции.
 BEGIN TRANSACTION;  
-	INSERT INTO booking 
-	VALUES(1, DATEFROMPARTS ( 2020, 04, 5 ));  
-COMMIT;  
+	INSERT INTO booking VALUES(1, DATEFROMPARTS ( 2020, 04, 5 ));  	
+	INSERT room_in_booking VALUES (2003, 140, DATEFROMPARTS ( 2020, 05, 5 ), DATEFROMPARTS ( 2020, 05, 15 ))
+ROLLBACK;  
 
 
 
