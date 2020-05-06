@@ -109,57 +109,57 @@ ON DELETE CASCADE
 ---- 1. INSERT ----
 -- 1. Без указания списка полей
 INSERT [product]
-VALUES ('Молоко', 'Коровье молоко', DATEFROMPARTS ( 2020, 03, 25 ), 50);
+VALUES (N'Молоко', N'Коровье молоко', DATEFROMPARTS ( 2020, 03, 25 ), 50);
 
 INSERT [product]
-VALUES ('Молоко', 'Козье молоко', DATEFROMPARTS ( 2020, 03, 30 ), 100);
+VALUES (N'Молоко', N'Козье молоко', DATEFROMPARTS ( 2020, 03, 30 ), 100);
 
 INSERT [product]
-VALUES ('Молоко', 'Коровье молоко', DATEFROMPARTS ( 2020, 03, 18 ), 50);
+VALUES (N'Молоко', N'Коровье молоко', DATEFROMPARTS ( 2020, 03, 18 ), 50);
 
 INSERT [product]
-VALUES ('Lays', 'Чипсы', DATEFROMPARTS ( 2021, 04, 5 ), 180);
+VALUES (N'Lays', N'Чипсы', DATEFROMPARTS ( 2021, 04, 5 ), 180);
 
 INSERT [product]
-VALUES ('Шоколад', 'Молочный', DATEFROMPARTS ( 2021, 04, 15 ), 130);
+VALUES (N'Шоколад', N'Молочный', DATEFROMPARTS ( 2021, 04, 15 ), 130);
 
 INSERT [storage]
-VALUES ('Продукты', 'ул. Пушкина, д. 8', '123456789', 1000);
+VALUES (N'Продукты', N'ул. Пушкина, д. 8', N'123456789', 1000);
 
 INSERT [storage]
-VALUES ('Продукты', 'ул. Пушкина, д. 8', '123456789', 2000);
+VALUES (N'Продукты', N'ул. Пушкина, д. 8', N'123456789', 2000);
 
 INSERT [storage]
-VALUES ('Овощи', 'ул. Волкова, д. 43', '5555', 9000);
+VALUES (N'Овощи', N'ул. Волкова, д. 43', N'5555', 9000);
 
 INSERT [product_in_storage]
-VALUES (7, 1, 100, '2004-05-23T14:25:10');
+VALUES (7, 1, 100, N'2004-05-23T14:25:10');
 
 INSERT [product_in_storage]
-VALUES (6, 2, 80, '2020-05-23T14:30:00');
+VALUES (6, 2, 80, N'2020-05-23T14:30:00');
 
 INSERT [product_in_storage]
-VALUES (8, 1, 180, '2020-03-15T18:30:00');
+VALUES (8, 1, 180, N'2020-03-15T18:30:00');
 
 INSERT [product_in_storage]
-VALUES (4, 1, 180, '2020-03-15T12:45:00');
+VALUES (4, 1, 180, N'2020-03-15T12:45:00');
 
 INSERT [product_in_storage]
-VALUES (4, 3, 150, '2020-03-15T12:45:00');
+VALUES (4, 3, 150, N'2020-03-15T12:45:00');
 
 
 -- 2. С указанием списка полей
 INSERT [product]
 	(name, shelf_life, purchase_price)
-VALUES ('Сыр', DATEFROMPARTS ( 2020, 04, 5 ), 150);
+VALUES (N'Сыр', DATEFROMPARTS ( 2020, 04, 5 ), 150);
 
 INSERT [product]
 	(name, shelf_life, purchase_price)
-VALUES ('Шоколад', DATEFROMPARTS ( 2021, 04, 5 ), 180);
+VALUES (N'Шоколад', DATEFROMPARTS ( 2021, 04, 5 ), 180);
 
 INSERT [storage]
 	(address, phone, capacity)
-VALUES ('ул. Пушкина, д. 8', '89658354222', 1500);
+VALUES (N'ул. Пушкина, д. 8', N'89658354222', 1500);
 
 
 -- 3. С чтением значения из другой таблицы
@@ -176,7 +176,7 @@ DELETE [supplier]
 -- 2. По условию
 DELETE [product]
 WHERE 
-	name LIKE 'Молоко';
+	name LIKE N'Молоко';
 
 -- 3. Очистить таблицу
 TRUNCATE TABLE [product_in_storage]
@@ -186,11 +186,11 @@ TRUNCATE TABLE [product_in_storage]
 ---- 3. UPDATE ----
 -- 1. Всех записей
 UPDATE [storage]
-SET address = 'ул. Королева, д.15'
+SET address = N'ул. Королева, д.15'
 
 -- 2. По условию обновляя один атрибут
 UPDATE [storage]
-SET  phone = '79024542154'
+SET  phone = N'79024542154'
 WHERE name IS NULL;
 
 -- 3. По условию обновляя несколько атрибутов
@@ -240,7 +240,7 @@ ORDER BY 1
 -- 1. WHERE по дате
 SELECT *
 FROM [product_in_storage]
-WHERE delivery > '2019-01-01T00:00:00'
+WHERE delivery > N'2019-01-01T00:00:00'
 
 -- 2. Извлечь из таблицы не всю дату, а только год. 
 SELECT name, YEAR(shelf_life) AS shelf_life
@@ -321,7 +321,7 @@ SELECT * FROM
 (SELECT * FROM [product] WHERE purchase_price < 150) p
 LEFT JOIN (SELECT * FROM [product_in_storage] WHERE quantity > 90) ps
 ON ps.id_product = p.id_product
-LEFT JOIN (SELECT * FROM [storage] WHERE name = 'Продукты') s
+LEFT JOIN (SELECT * FROM [storage] WHERE name = N'Продукты') s
 ON s.id_storage = ps.id_storage
 
 -- 4. FULL OUTER JOIN двух таблиц
