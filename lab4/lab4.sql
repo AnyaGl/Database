@@ -95,7 +95,7 @@ INNER JOIN (SELECT room_in_booking.id_room,  MAX(room_in_booking.checkout_date) 
 			GROUP BY room_in_booking.id_room) AS b
 ON b.id_room =  room_in_booking.id_room
 
-WHERE (room_in_booking.id_room = b.id_room and b.last_checkout_date = room_in_booking.checkout_date)
+WHERE (b.last_checkout_date = room_in_booking.checkout_date)
 ORDER BY  room.id_room
 
 
