@@ -1,4 +1,4 @@
---1. Äîáàâèòü âíåøíèå êëþ÷è.
+--1. Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð²Ð½ÐµÑˆÐ½Ð¸Ðµ ÐºÐ»ÑŽÑ‡Ð¸.
 
 ALTER TABLE [order]
 ADD
@@ -25,7 +25,7 @@ ADD
 FOREIGN KEY(id_company) REFERENCES company(id_company)
 
 
---2. Âûäàòü èíôîðìàöèþ ïî âñåì çàêàçàì ëåêàðñòâà “Êîðäåðîí” êîìïàíèè “Àðãóñ” ñ óêàçàíèåì íàçâàíèé àïòåê, äàò, îáúåìà çàêàçîâ.
+--2. Ð’Ñ‹Ð´Ð°Ñ‚ÑŒ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸ÑŽ Ð¿Ð¾ Ð²ÑÐµÐ¼ Ð·Ð°ÐºÐ°Ð·Ð°Ð¼ Ð»ÐµÐºÐ°Ñ€ÑÑ‚Ð²Ð° â€œÐšÐ¾Ñ€Ð´ÐµÑ€Ð¾Ð½â€ ÐºÐ¾Ð¼Ð¿Ð°Ð½Ð¸Ð¸ â€œÐÑ€Ð³ÑƒÑâ€ Ñ ÑƒÐºÐ°Ð·Ð°Ð½Ð¸ÐµÐ¼ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ð¹ Ð°Ð¿Ñ‚ÐµÐº, Ð´Ð°Ñ‚, Ð¾Ð±ÑŠÐµÐ¼Ð° Ð·Ð°ÐºÐ°Ð·Ð¾Ð².
 
 SELECT pharmacy.name, [order].date, [order].quantity
 FROM medicine
@@ -33,17 +33,17 @@ INNER JOIN production ON production.id_medicine = medicine.id_medicine
 INNER JOIN company ON company.id_company = production.id_company
 INNER JOIN [order] ON [order].id_production = production.id_production
 INNER JOIN pharmacy ON pharmacy.id_pharmacy = [order].id_pharmacy
-WHERE (medicine.name = N'Êîðäåðîí' AND company.name = N'Àðãóñ')
+WHERE (medicine.name = N'ÐšÐ¾Ñ€Ð´ÐµÑ€Ð¾Ð½' AND company.name = N'ÐÑ€Ð³ÑƒÑ')
 
 
---3. Äàòü ñïèñîê ëåêàðñòâ êîìïàíèè “Ôàðìà”, íà êîòîðûå íå áûëè ñäåëàíû çàêàçû äî 25 ÿíâàðÿ.
+--3. Ð”Ð°Ñ‚ÑŒ ÑÐ¿Ð¸ÑÐ¾Ðº Ð»ÐµÐºÐ°Ñ€ÑÑ‚Ð² ÐºÐ¾Ð¼Ð¿Ð°Ð½Ð¸Ð¸ â€œÐ¤Ð°Ñ€Ð¼Ð°â€, Ð½Ð° ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ð½Ðµ Ð±Ñ‹Ð»Ð¸ ÑÐ´ÐµÐ»Ð°Ð½Ñ‹ Ð·Ð°ÐºÐ°Ð·Ñ‹ Ð´Ð¾ 25 ÑÐ½Ð²Ð°Ñ€Ñ.
 
 SELECT DISTINCT medicine.name
 FROM medicine
 LEFT JOIN production ON production.id_medicine = medicine.id_medicine
 LEFT JOIN company ON company.id_company = production.id_company
 LEFT JOIN [order] ON [order].id_production = production.id_production
-WHERE company.name = N'Ôàðìà' AND
+WHERE company.name = N'Ð¤Ð°Ñ€Ð¼Ð°' AND
 	production.id_production NOT IN 
 	(
 		SELECT [order].id_production
@@ -52,7 +52,7 @@ WHERE company.name = N'Ôàðìà' AND
 	)
 
 
---4. Äàòü ìèíèìàëüíûé è ìàêñèìàëüíûé áàëëû ëåêàðñòâ êàæäîé ôèðìû, êîòîðàÿ îôîðìèëà íå ìåíåå 120 çàêàçîâ.
+--4. Ð”Ð°Ñ‚ÑŒ Ð¼Ð¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð¸ Ð¼Ð°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð±Ð°Ð»Ð»Ñ‹ Ð»ÐµÐºÐ°Ñ€ÑÑ‚Ð² ÐºÐ°Ð¶Ð´Ð¾Ð¹ Ñ„Ð¸Ñ€Ð¼Ñ‹, ÐºÐ¾Ñ‚Ð¾Ñ€Ð°Ñ Ð¾Ñ„Ð¾Ñ€Ð¼Ð¸Ð»Ð° Ð½Ðµ Ð¼ÐµÐ½ÐµÐµ 120 Ð·Ð°ÐºÐ°Ð·Ð¾Ð².
 
 SELECT company.name, MIN(production.rating) AS min_rating, MAX(production.rating) AS max_rating
 FROM production
@@ -62,7 +62,7 @@ GROUP BY company.name
 HAVING COUNT([order].id_order) >= 120
 
 
---5. Äàòü ñïèñêè ñäåëàâøèõ çàêàçû àïòåê ïî âñåì äèëåðàì êîìïàíèè “AstraZeneca”. Åñëè ó äèëåðà íåò çàêàçîâ, â íàçâàíèè àïòåêè ïðîñòàâèòü NULL.
+--5. Ð”Ð°Ñ‚ÑŒ ÑÐ¿Ð¸ÑÐºÐ¸ ÑÐ´ÐµÐ»Ð°Ð²ÑˆÐ¸Ñ… Ð·Ð°ÐºÐ°Ð·Ñ‹ Ð°Ð¿Ñ‚ÐµÐº Ð¿Ð¾ Ð²ÑÐµÐ¼ Ð´Ð¸Ð»ÐµÑ€Ð°Ð¼ ÐºÐ¾Ð¼Ð¿Ð°Ð½Ð¸Ð¸ â€œAstraZenecaâ€. Ð•ÑÐ»Ð¸ Ñƒ Ð´Ð¸Ð»ÐµÑ€Ð° Ð½ÐµÑ‚ Ð·Ð°ÐºÐ°Ð·Ð¾Ð², Ð² Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ð¸ Ð°Ð¿Ñ‚ÐµÐºÐ¸ Ð¿Ñ€Ð¾ÑÑ‚Ð°Ð²Ð¸Ñ‚ÑŒ NULL.
 
 SELECT dealer.name, pharmacy.name
 FROM dealer
@@ -72,7 +72,7 @@ LEFT JOIN company ON company.id_company = dealer.id_company
 WHERE company.name = N'AstraZeneca'
 
 
---6. Óìåíüøèòü íà 20% ñòîèìîñòü âñåõ ëåêàðñòâ, åñëè îíà ïðåâûøàåò 3000, à äëèòåëüíîñòü ëå÷åíèÿ íå áîëåå 7 äíåé.
+--6. Ð£Ð¼ÐµÐ½ÑŒÑˆÐ¸Ñ‚ÑŒ Ð½Ð° 20% ÑÑ‚Ð¾Ð¸Ð¼Ð¾ÑÑ‚ÑŒ Ð²ÑÐµÑ… Ð»ÐµÐºÐ°Ñ€ÑÑ‚Ð², ÐµÑÐ»Ð¸ Ð¾Ð½Ð° Ð¿Ñ€ÐµÐ²Ñ‹ÑˆÐ°ÐµÑ‚ 3000, Ð° Ð´Ð»Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ Ð»ÐµÑ‡ÐµÐ½Ð¸Ñ Ð½Ðµ Ð±Ð¾Ð»ÐµÐµ 7 Ð´Ð½ÐµÐ¹.
 
 BEGIN TRANSACTION
 
@@ -84,7 +84,7 @@ WHERE (production.price > 3000 AND medicine.cure_duration <= 7)
 	
 ROLLBACK
 
---7. Äîáàâèòü íåîáõîäèìûå èíäåêñû.
+--7. Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ð½ÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ñ‹Ðµ Ð¸Ð½Ð´ÐµÐºÑÑ‹.
 
 -- pharmacy
 CREATE NONCLUSTERED INDEX [IX_pharmacy_name] ON pharmacy
