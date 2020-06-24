@@ -90,58 +90,68 @@ FROM mark
 INNER JOIN lesson ON lesson.id_lesson = mark.id_lesson
 INNER JOIN subject ON subject.id_subject = lesson.id_subject
 INNER JOIN [group] ON [group].id_group = lesson.id_group
-WHERE (subject.name = N'БД' AND mark.mark < 5 AND lesson.date < N'2019-05-12' AND [group].name = N'ПС')
+WHERE subject.name = N'БД' AND mark.mark < 5 AND lesson.date < N'2019-05-12' AND [group].name = N'ПС'
 
 ROLLBACK;
 
 --7. Добавить необходимые индексы.
 
--- group
-CREATE NONCLUSTERED INDEX [IX_group_name] ON [group]
+-- subject
+CREATE NONCLUSTERED INDEX [IX_subject_name] ON subject  
 (
 	name ASC
 )
 
--- student
-CREATE NONCLUSTERED INDEX [IX_student_name] ON student
-(
-	name ASC
-)
-CREATE NONCLUSTERED INDEX [IX_student_id_group] ON student
-(
-	id_group ASC
-)
-
--- mark
-CREATE NONCLUSTERED INDEX [IX_mark_mark] ON mark
-(
-	mark ASC
-)
-CREATE NONCLUSTERED INDEX [IX_mark_id_student] ON mark
-(
-	id_student ASC
-)
-CREATE NONCLUSTERED INDEX [IX_mark_id_lesson] ON mark
-(
-	id_lesson ASC
-)
-
--- lesson
-CREATE NONCLUSTERED INDEX [IX_lesson_date] ON lesson
-(
-	date ASC
-)
-CREATE NONCLUSTERED INDEX [IX_lesson_id_subject] ON lesson
+CREATE NONCLUSTERED INDEX [IX_subject_id_subject] ON subject	
 (
 	id_subject ASC
 )
-CREATE NONCLUSTERED INDEX [IX_lesson_id_group] ON lesson
-(
-	id_group ASC
-)
+INCLUDE(name)
 
--- subject
-CREATE NONCLUSTERED INDEX [IX_subject_name] ON subject
+CREATE NONCLUSTERED INDEX [IX_subject_name-include_id_subject] ON subject	
 (
 	name ASC
+)
+INCLUDE(id_subject)
+
+-- lesson
+CREATE NONCLUSTERED INDEX [IX_lesson_id_subject] ON lesson 
+(
+	id_subject ASC
+)
+
+CREATE NONCLUSTERED INDEX [IX_lesson_id_group-id_subject] ON lesson	
+(
+	id_group ASC,
+	id_subject ASC
+)
+INCLUDE(date)
+
+-- student
+CREATE NONCLUSTERED INDEX [IX_student_id_group-id_student] ON student
+(
+	id_group ASC,
+	id_student ASC
+)
+INCLUDE(name)
+
+-- mark
+CREATE NONCLUSTERED INDEX [IX_mark_id_lesson-id_student] ON mark	
+(
+	id_lesson ASC,
+	id_student ASC
+)
+INCLUDE(mark)
+
+CREATE NONCLUSTERED INDEX [IX_mark_id_lesson-mark] ON mark	
+(
+	id_lesson ASC,
+	mark ASC
+)
+
+-- group
+CREATE NONCLUSTERED INDEX [IX_group_name-id_group] ON [group]	
+(
+	name ASC,
+	id_group ASC
 )
